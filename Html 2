@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html><head>
+  <title>AI Ghost Dashboard</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; padding: 20px; }h1 { color: #007bff; }
+    .emi-list { margin-top: 20px; }
+    .emi-item { padding: 10px; border: 1px solid #ccc; }button { margin-top: 10px; }
+  </style>
+</head><body>
+  <h1>📋 AI Ghost EMI Dashboard</h1><input type="text" id="emiInput" placeholder="Enter EMI (IMEI) number">
+  <button onclick="addEMI()">Add EMI</button>
+  <div class="emi-list" id="emiList"></div>
+  <script>
+  function addEMI() {
+    const input = document.getElementById("emiInput");
+    const value = input.value.trim();if (value === "") return;
+
+    const emiList = document.getElementById("emiList");
+    const div = document.createElement("div");
+    div.className = "emi-item";
+    div.innerHTML = `
+      <span>${value}</span>
+      <div>
+        <button onclick="commandEMI('${value}')">Command</button>
+        <button onclick="deleteEMI(this)">Delete</button>
+      </div>
+    `;
+    emiList.appendChild(div);
+    input.value = "";
+   function deleteEMI(button) {
+    button.parentElement.parentElement.parentElement.remove();
+
+}function commandEMI(imei) {
+  alert("Command sent to: " + imei);
+}</script>
+</body>
+</html>
+const emiItem = document.createElement('div');
+emiItem.classList.add('emi-item');
+
+// Add EMI content
+emiItem.innerHTML = `
+  <p><strong>IMEI:</strong> ${imei}</p>
+  <div class="command-box">
+    <input type="text" placeholder="Enter command for this EMI" class="command-input">
+    <button onclick="sendCommand(this)">Send</button>
+  </div>
+  <div class="emi-buttons">
+    <button onclick="sendIMEI('${imei}')">Command</button>
+    <button onclick="deleteEMI(this)">Delete</button>
+  </div>
+`;function sendCommand(button) {
+  const input = button.previousElementSibling;
+  const command = input.value.trim();
+  const imei = button.closest('.emi-item').querySelector('p').innerText.split(': ')[1];
+
+  if (command) {
+    alert(`Command for ${imei}: ${command}`);
+    input.value = '';
+  } else {
+    alert("Please enter a command.");
+  }
+}.command-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.command-input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #999;
+  border-radius: 5px;
+}renderList();
+    input.value = "";
+  }
+
+  function deleteEMI(index) {
+    emiList.splice(index, 1);
+    renderList();
+  }
+
+  function executeCommand(index) {
+    const emi = emiList[index];
+    const command = prompt(`Enter command for EMI ${emi}:`);
+    if (command) {
+      alert(`Command "${command}" executed for EMI: ${emi}`);
+      // Yahan future me backend API call ya AI trigger kar sakte ho
+    }
+  }
+
+  function renderList() {
+    const list = document.getElementById("emiList");
+    list.innerHTML = "";
+    emiList.forEach((emi, index) => {
+      const li = document.createElement("li");
+      li.textContent = emi;
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.onclick = () => deleteEMI(index);
+      delBtn.style.marginLeft = "10px";
+
+      const execBtn = document.createElement("button");
+      execBtn.textContent = "Execute";
+      execBtn.onclick = () => executeCommand(index);
+      execBtn.style.marginLeft = "5px";
+
+      li.appendChild(execBtn);
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
+  }
+
+  // Initial dummy EMI list
+  const emiList = [];
+</script>function grantAccess(imei) {
+    alert("Access granted for EMI: " + imei);
+    // Yahan tum manual access control logic add kar sakte ho
+}function deleteEntry(imei) {
+    if (confirm("Are you sure you want to delete EMI: " + imei + "?")) {
+        alert("Deleted EMI: " + imei);
+        // Record list se EMI delete karne ka backend logic yahan aayega
+    }
+}function trackDevice(imei) {
+    alert("Tracking started for EMI: " + imei);
+    // Device tracking system se data fetch karna ho to yahan logic aayega
+}function sendMessage(imei) {
+    alert("Message sent to device with EMI: " + imei);
+    // Manual message push karne ka function yahan banega
+}<button onclick="restartDevice('123456789')">Restart</button>function restartDevice(imei) {
+    alert("Device restarted for EMI: " + imei);
+}<!DOCTYPE html>
+<html>
+<head>
+  <title>Mr X AI - EMI Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #000; color: #0f0; padding: 20px; }
+    h1 { text-align: center; color: #00ffcc; }
+    input, button, textarea {
+      background: #111; color: #0f0; border: 1px solid #0f0; padding: 8px; margin: 5px;
+      width: 100%; box-sizing: border-box;
+    }
+    .emi-entry { border: 1px solid #0f0; margin: 10px 0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Mr X AI - Manual EMI Command Panel</h1>
+
+  <input type="text" id="emiInput" placeholder="Enter EMI Number">
+  <button onclick="logEMI()">Save EMI</button>
+
+  <input type="text" id="commandInput" placeholder="Type command (search, allow, delete)">
+  <button onclick="executeCommand()">Run Command</button>
+
+  <div id="emiList"></div>
+
+  <script>
+    let emiData = JSON.parse(localStorage.getItem("emiData") || "[]");
+
+    function saveData() {
+      localStorage.setItem("emiData", JSON.stringify(emiData));
+    }
+
+    function displayEMIs() {
+      const container = document.getElementById("emiList");
+      container.innerHTML = "";
+      emiData.forEach((emi, index) => {
+        container.innerHTML += `
+          <div class="emi-entry">
+            <b>EMI:</b> ${emi.number}<br>
+            <b>Status:</b> ${emi.status}<br>
+            <small>ID: ${index}</small>
+          </div>`;
+      });
+    }
+
+    function logEMI() {
+      const emi = document.getElementById("emiInput").value.trim();
+      if (emi) {
+        emiData.push({ number: emi, status: "Logged" });
+        saveData();
+        displayEMIs();
+        document.getElementById("emiInput").value = "";
+      }
+    }
+
+    function executeCommand() {
+      const cmd = document.getElementById("commandInput").value.trim().toLowerCase();
+
+      if (cmd.startsWith("search ")) {
+        const searchEmi = cmd.split(" ")[1];
+        const found = emiData.find(e => e.number === searchEmi);
+        alert(found ? `Found: ${found.number} → ${found.status}` : "EMI not found");
+      } else if (cmd.startsWith("allow ")) {
+        const allowEmi = cmd.split(" ")[1];
+        let found = emiData.find(e => e.number === allowEmi);
+        if (found) {
+          found.status = "Remote Access Allowed";
+          saveData();
+          displayEMIs();
+          alert("Access allowed");
+        } else alert("EMI not found");
+      } else if (cmd.startsWith("delete ")) {
+        const delEmi = cmd.split(" ")[1];
+        emiData = emiData.filter(e => e.number !== delEmi);
+        saveData();
+        displayEMIs();
+        alert("EMI deleted");
+      } else {
+        alert("Invalid command");
+      }
+
+      document.getElementById("commandInput").value = "";
+    }
+
+    displayEMIs();
+  </script>
+</body>
+</html><hr>
+<h2>Manual Command Input (For Mr X AI)</h2>
+
+<input type="text" id="manualCommand" placeholder="Enter Command or EMI Number" />
+<button onclick="sendManualCommand()">Send</button>
+
+<p id="aiReply"></p>
+
+<script>
+  let lastCommand = "";
+
+  function sendManualCommand() {
+    const input = document.getElementById("manualCommand").value;
+    if (!input) {
+      document.getElementById("aiReply").innerText = "Please enter a command.";
+      return;
+    }
+
+    lastCommand = input;
+    document.getElementById("aiReply").innerText = `You said: "${input}". Do you confirm? (Type Yes or No)`;
+  }
+
+  document.addEventListener("keydown", function(event) {
+    const reply = event.key.toLowerCase();
+    if ((reply === "y" || reply === "n") && lastCommand) {
+      if (reply === "y") {
+        document.getElementById("aiReply").innerText = `✅ Confirmed. Executing: "${lastCommand}"`;
+        // Future: Run Mr X AI action here
+        lastCommand = "";
+      } else {
+        document.getElementById("aiReply").innerText = `❌ Command "${lastCommand}" cancelled.`;
+        lastCommand = "";
+      }
+    }
+  });
+</script>
